@@ -1,2 +1,2 @@
-# Dynascan_Aaron
+# Dynascan
 Database Searching
