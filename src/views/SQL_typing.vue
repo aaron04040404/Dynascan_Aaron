@@ -1,6 +1,4 @@
 <template>
-    <div>
-        <RouterLink to="/">Home</RouterLink>
         <div class="container">
             <div>
                 <span>輸入SQL語法:</span>
@@ -13,8 +11,22 @@
                     <button @click="sendSQLQuery_client">use_client</button>
                 </div>
             </div>
+            <div class="table-container">
+            <table v-if="jsonArray.length > 0" class="styled-table ">
+            <thead>
+                <tr>
+                    <th v-for="(value, key) in jsonArray[0]" :key="key">{{ key }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in jsonArray" :key="index">
+                    <td v-for="(value, key) in item" :key="key" style="white-space: nowrap;">{{ value }}</td>
+                </tr>
+            </tbody>
+            </table>
+            </div>
+        
         </div>
-    </div>
 </template>
 
 
@@ -24,7 +36,7 @@ import API from '../api.js';
 
 
 const sql = ref("");
-
+const jsonArray = ref([])
 const sendSQLQuery_main = async() =>{
     const path = 'http://localhost:5000/sql_typing'
 
@@ -56,3 +68,35 @@ const sendSQLQuery_client = async() =>{
 }
 
 </script>
+
+<style>
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f3f3f3;
+  color: #000;
+  font-size: 14px;/* 調整字體大小 */
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.styled-table th {
+  background-color: #666;
+  color: #fff;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #ddd;
+}
+.table-container {
+  max-width: 80%;
+  max-height: 500px; /* 設置表格容器的最大高度 */
+  overflow: auto; /* 啟用滾動條 */
+  margin-top: 20px;
+  border: 1px solid #ccc;
+}
+</style>

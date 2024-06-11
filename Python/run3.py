@@ -1,14 +1,17 @@
 import os
 from lib.imports import *
 from lib.config.python_mysql_dbconfig import read_db_config
-from lib.dynascan365_main_SQL import MainDisplayer, sql_searching2, wrong_Bonding
+from lib.d365_Search import d365_Search #沒有變數的已知查詢
 from lib.SQL_typing import use_data
+from lib.DownloadData import DownloadData
 from lib.db_connection import MySQLConnection
 
 
 app = Flask(__name__,
             static_folder = "../dist/assets",
             template_folder = "../dist")
+
+app.config['JSON_SORT_KEYS'] = False
             
 cors = CORS(app, resources = {r"/*":{"origins":"*"}})
 
@@ -51,7 +54,11 @@ def after_request(response):
     
     return response
     
+
+@app.route('/sql_typing', methods = ['GET', 'POST'])    
+def run_sql_typing():
     
+    return use_data()   
 
 @app.route('/api/random')
 def random_number():
@@ -63,31 +70,34 @@ def random_number():
     return jsonify(response)
 
 
-@app.route('/sql_searching', methods = ['GET', 'POST'])  
+@app.route('/maindisplayer', methods = ['GET', 'POST'])  
 def run_MainDisplayer():
     
-    return MainDisplayer()
+    return d365_Search.MainDisplayer()
     
 @app.route('/sql_searching2', methods = ['GET', 'POST'])  
 def run_sql_searching2():
     
-    return sql_searching2()
-
-@app.route('/sql_typing', methods = ['GET', 'POST'])    
-def run_sql_typing():
-    
-    return use_data()
-
+    return d365_Search.sql_searching2()
 
 @app.route('/test', methods = ['GET', 'POST'])
 def run_db_connect_test():
-    return wrong_Bonding()
+
+    return d365_Search.wrong_Bonding()
 
 @app.route('/wrong_Bonding', methods = ['GET', 'POST'])
 def run_wrong_bonding():
     
-    return wrong_Bonding() 
-    
+    return d365_Search.wrong_Bonding()
+
+@app.route('/version', methods = ['GET', 'POST'])
+def run_displayer_version(): 
+
+    return d365_Search.displayer_version()
+
+@app.route('/download', methods = ['GET', 'POST'])
+def run_download():
+    return DownloadData.downloadcsv()    
         
 if __name__ == '__main__':
     

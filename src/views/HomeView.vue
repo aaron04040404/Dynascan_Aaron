@@ -1,15 +1,19 @@
 <template>
   <div>
-    <div class="row me-3 mt-2">
-        <nav>
-          <RouterLink to="/sql_typing"><button class="box me-3">SQL查詢</button></RouterLink>
-          <RouterLink to="/about"><button class="box me-3">dynascan_main_notification查詢</button></RouterLink>
-          <RouterLink to="/displayer_srch"><button class="box me-3">dynascan_main_displayer查詢</button></RouterLink>
-          <RouterLink to="/dynascan_main_db"><button class="box me-3">dynascan_main_db</button></RouterLink>
-        </nav>
+    <div class="row mt-2">
+        <div class="col-md-auto">
+          <RouterLink to="/sql_typing"><button class="box">SQL查詢</button></RouterLink>
+        </div>
+        <div class="col-md-auto">
+          <RouterLink to="/about"><button class="box">Notification查詢</button></RouterLink>
+        </div>
+        <div class="col-md-auto">
+          <RouterLink to="/displayer_srch"><button class="box">displayer查詢</button></RouterLink>
+        </div>        
+             
     </div>
-    <div class="offset-11">
-      <button class="box" @click="sendSQLQuery">function1</button>
+    <div>
+      <button class="box offset-11" @click="sendSQLQuery">function1</button>
     </div>
     <div class="offset-11">
       <button class="box" @click="increment">{{ count }}</button>
@@ -96,7 +100,6 @@ onMounted(() => {
   border-collapse: collapse;
   background-color: #f3f3f3;
   color: #000;
-  font-size: 14px; /* 調整字體大小 */
 }
 
 .styled-table th,
@@ -133,22 +136,5 @@ onMounted(() => {
   text-align: center;
 }
 
-.box {
-  justify-content: center;
-  border-radius: 20px;
-  background-color: #c5c7cc;
-  align-self: end;
-  white-space: nowrap;
-  letter-spacing: 3px;
-  padding: 5px 8px;
-  font: 700 20px Inter, sans-serif;
-  cursor: pointer; /* 添加鼠標指針 */
-  border: none;
-}
-
-/* 添加hover時的樣式 */
-.box:hover {
-  background-color: #4caf50; /* 綠色 */
-}
 </style>
 

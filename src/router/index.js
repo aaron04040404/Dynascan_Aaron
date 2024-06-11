@@ -4,7 +4,6 @@ import AboutView from '../views/AboutView.vue'
 import Displayer_srch from '@/views/Displayer_srch.vue'
 import SQL_typing from '@/views/SQL_typing.vue'
 import NotFound from '@/views/NotFound.vue'
-import dynascan_main_db from '@/views/dynascan_main_db.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,11 +31,6 @@ const router = createRouter({
       name:'sql_typing',
       component: SQL_typing
 
-    },
-    {
-      path:'/dynascan_main_db',
-      name:'dynascan_main_db',
-      component: dynascan_main_db
     },
     {
       path:'/:catchAll(.*)',

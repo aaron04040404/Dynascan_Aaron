@@ -1,6 +1,5 @@
 <template>
   <div>
-    <RouterLink to="/">Home</RouterLink>
     <div class="container">
       <!-- 左側 -->
       <div>

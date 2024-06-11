@@ -8,6 +8,7 @@ import HelloWorld from './components/HelloWorld.vue'
     database searching
     <br />
     </div>
+    <RouterLink to="/">Home</RouterLink>
   
   <RouterView/>
 </template>
@@ -18,12 +19,15 @@ import HelloWorld from './components/HelloWorld.vue'
   border-collapse: collapse;
   background-color: #f3f3f3;
   color: #000;
+  font-size: 14px;/* 調整字體大小 */
 }
 
 .styled-table th,
 .styled-table td {
-  padding: 12px 15px;
+  padding: 8px 10px;
   text-align: left;
+  border-right: 1px solid #000000;
+  white-space: nowrap;
 }
 
 .styled-table th {
@@ -33,6 +37,13 @@ import HelloWorld from './components/HelloWorld.vue'
 
 .styled-table tbody tr:nth-of-type(even) {
   background-color: #ddd;
+}
+.table-container {
+  max-width: 80%;
+  max-height: 500px; /* 設置表格容器的最大高度 */
+  overflow: auto; /* 啟用滾動條 */
+  margin-top: 20px;
+  border: 1px solid #ccc;
 }
 
 .div {
@@ -102,13 +113,13 @@ import HelloWorld from './components/HelloWorld.vue'
     white-space: nowrap;
     letter-spacing: 4px;
     padding: 10px 10px;
-    font: 700 20px Inter, sans-serif;
+    font: 600 18px Inter, sans-serif;
     cursor: pointer; /* 添加鼠標指針 */
-	border: none;
+	  border: none;
   }
   /* 添加hover時的樣式 */
   .box:hover {
-    background-color: #4caf50; /* 綠色 */
+    background-color: #10d917; /* 綠色 */
   }
   @media (max-width: 991px) {
     .box {
