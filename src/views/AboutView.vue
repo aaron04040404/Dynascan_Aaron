@@ -1,48 +1,47 @@
 <template>
-  <div>
-    <div class="container">
+  <NotificationNav />
       <!-- 左側 -->
       <div>
-        <div class="mt-3">
+        <div class="ms-3 mt-3">
           輸入mcb_id:
         </div>
-        <div>
+        <div class="ms-3 mt-3">
           <input v-model="mcb_id" placeholder="edit me" />
         </div>
-        <div class="mt-3">
+        <div class="ms-3 mt-3">
           <VueDatePicker v-model="startdate" time-picker-inline class="custom-datepicker"></VueDatePicker>
         </div>
-        <div class="mt-3">
+        <div class="ms-3 mt-3">
           起始日期: {{ startDate }}
         </div>
-        <div class="mt-3">
+        <div class="ms-3 mt-3">
           <VueDatePicker v-model="enddate" time-picker-inline class="custom-datepicker"></VueDatePicker>
         </div>
-        <div class="mt-3">
+        <div class="ms-3 mt-3">
           結束日期: {{ endDate }}
         </div>
-        <div class="mt-3">
+        <div class="ms-3 mt-3">
           <button @click="sendSQLQuery">查詢</button>
+        </div>
+        <div class="col-auto">
+          <div class="table-container">
+            <table v-if="jsonArray.length > 0" class="styled-table">
+              <thead>
+                <tr>
+                  <th v-for="(value, key) in jsonArray[0]" :key="key">{{ key }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in jsonArray" :key="index">
+                  <td v-for="(value, key) in item" :key="key">{{ value }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- 右側 -->
-      <div class="right">
-        <table v-if="jsonArray.length > 0" class = "styled-table">
-      <thead>
-        <tr>
-          <th v-for="(value, key) in jsonArray[0]" :key="key">{{ key }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in jsonArray" :key="index">
-          <td v-for="(value, key) in item" :key="key">{{ value }}</td>
-        </tr>
-      </tbody>
-    </table>
-      </div>
-    </div>
-  </div>
+        
 </template>
 
 <script setup>
@@ -51,6 +50,7 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import API from '../api.js'
 import { format } from 'date-fns';
+import NotificationNav from './NotificationNav.vue'
 
 const mcb_id = ref("");
 const startdate = ref(null);
@@ -68,7 +68,7 @@ const endDate = computed(() => {
 });
 
 const sendSQLQuery = async() =>{
-  const path = 'http://localhost:5000/sql_searching2'
+  const path = 'http://localhost:5000/Notification_between_date'
   try{
     const response = await API.post(path, {
       mcb_id: mcb_id.value,

@@ -1,0 +1,31 @@
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f3f3f3;
+    color: #000;
+    font-size: 14px;/* 調整字體大小 */
+  }
+  
+  .styled-table th,
+  .styled-table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-right: 1px solid #000000;
+    white-space: nowrap;
+  }
+  
+  .styled-table th {
+    background-color: #666;
+    color: #fff;
+  }
+  
+  .styled-table tbody tr:nth-of-type(even) {
+    background-color: #ddd;
+  }
+  .table-container {
+    max-width: 100%;
+    max-height: 500px; /* 設置表格容器的最大高度 */
+    overflow: auto; /* 啟用滾動條 */
+    margin-top: 20px;
+    border: 1px solid #ccc;
+  }

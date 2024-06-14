@@ -1,130 +1,123 @@
+<template>
+    
+    <div class="wrapper">
+        <aside id="sidebar">
+            <div class="d-flex">
+                <button id="toggle-btn" type="button">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                </button>
+                <div class="sidebar-logo">
+                    <a href="#">menu</a>
+                </div>
+                <div class="sidebar-logo ms-3">
+                    <a href="/"><i class="bi bi-house"></i></a>
+                </div>
+                
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="/sql_typing" class="sidebar-link">
+                        <i class="bi bi-filetype-sql"></i>
+                        <span>SQL查詢</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#displayer" 
+                        aria-expanded="false" aria-controls="displayer">
+                        <i class="bi bi-display"></i>
+                        <span>Displayer查詢</span>
+                    </a>
+                    <ul id="displayer" class="sidebar-dropdown list-unstyle collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="/displayer_srch" class="sidebar-link">displayer即時版本</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/sqlwrongrealtime_srch" class="sidebar-link">Realtime錯誤查詢 <i class="bi bi-bug-fill"></i></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/sqlMaindisplayer" class="sidebar-link">MainDisplye查詢</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/sqlDisplayerRun" class="sidebar-link">有多少機台在運作</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/sqlDisplayerRealtime" class="sidebar-link">正式機Realtime不一致<i class="bi bi-bug-fill"></i></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/sqlNewDisplayTable" class="sidebar-link">New Display表格查詢</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#notification" 
+                        aria-expanded="false" aria-controls="notification">
+                        <i class="bi bi-megaphone"></i>
+                        <span>Notification查詢</span>
+                    </a>
+                    <ul id="notification" class="sidebar-dropdown list-unstyle collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="/about" class="sidebar-link">mcb某時間內通知</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#mcb_alarm" 
+                        aria-expanded="false" aria-controls="mcb_alarm">
+                        <i class="bi bi-alarm"></i>
+                        <span>mcb_alarm查詢</span>
+                    </a>
+                    <ul id="mcb_alarm" class="sidebar-dropdown list-unstyle collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">mcb_alarm</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#model" 
+                        aria-expanded="false" aria-controls="model">
+                        <i class="bi bi-android"></i>
+                        <span>Model查詢</span>
+                    </a>
+                    <ul id="model" class="sidebar-dropdown list-unstyle collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="/sqlModelDifferent" class="sidebar-link">註冊Model不一樣 <i class="bi bi-bug-fill"></i></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <div class="main p-3">
+            <div class="text-center">
+                <h1>
+                    Database Searching
+                </h1>
+            </div>
+            
+            <RouterView/>
+        </div>
+    </div>
+    
+  
+</template>
+
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { ref,onMounted } from 'vue';
+
+    
+    const toggleSidebar = () => {
+      document.querySelector("#sidebar").classList.toggle("expand");
+    };
+
+    onMounted(() => {
+      const hamBurger = document.querySelector("#toggle-btn");
+      hamBurger.addEventListener("click", toggleSidebar);
+    });
+
+
 </script>
 
-<template>
-    <div class="div div-2">
-    database searching
-    <br />
-    </div>
-    <RouterLink to="/">Home</RouterLink>
-  
-  <RouterView/>
-</template>
-
 <style>
-.styled-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #f3f3f3;
-  color: #000;
-  font-size: 14px;/* 調整字體大小 */
-}
 
-.styled-table th,
-.styled-table td {
-  padding: 8px 10px;
-  text-align: left;
-  border-right: 1px solid #000000;
-  white-space: nowrap;
-}
-
-.styled-table th {
-  background-color: #666;
-  color: #fff;
-}
-
-.styled-table tbody tr:nth-of-type(even) {
-  background-color: #ddd;
-}
-.table-container {
-  max-width: 80%;
-  max-height: 500px; /* 設置表格容器的最大高度 */
-  overflow: auto; /* 啟用滾動條 */
-  margin-top: 20px;
-  border: 1px solid #ccc;
-}
-
-.div {
-    background-color: #fff;
-    display: flex;
-    padding-bottom: 80px;
-    flex-direction: column;
-    font-size: 40px;
-    color: #000;
-    font-weight: 700;
-    text-align: center;
-  }
-  .div-2 {
-    background: linear-gradient(180deg, #5e6df5 0%, #e3e5f1 50.5%);
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    padding: 38px 60px;
-    font: 800 64px Jost, sans-serif;
-  }
-  @media (max-width: 991px) {
-    .div-2 {
-      max-width: 100%;
-      font-size: 40px;
-      padding: 0 20px;
-    }
-  }
-  .div-3 {
-    font-family: Inter, sans-serif;
-    justify-content: center;
-    border-radius: 30px;
-    background-color: #c5c7cc;
-    align-self: start;
-    white-space: nowrap;
-    letter-spacing: 4px;
-    margin: 18px 0 0 38px;
-    padding: 1px 20px;
-  }
-  @media (max-width: 991px) {
-    .div-3 {
-      margin-left: 10px;
-      white-space: initial;
-    }
-  }
-  .div-4 {
-    font-family: Inter, sans-serif;
-    justify-content: center;
-    border-radius: 30px;
-    background-color: #c5c7cc;
-    align-self: end;
-    white-space: nowrap;
-    letter-spacing: 4px;
-    margin: 88px 42px 0 0;
-    padding: 10px 20px;
-  }
-  @media (max-width: 991px) {
-    .div-4 {
-      white-space: initial;
-      margin: 40px 10px 0 0;
-    }
-  }
-  .box {
-    justify-content: center;
-    border-radius: 30px;
-    background-color: #c5c7cc;
-    align-self: end;
-    white-space: nowrap;
-    letter-spacing: 4px;
-    padding: 10px 10px;
-    font: 600 18px Inter, sans-serif;
-    cursor: pointer; /* 添加鼠標指針 */
-	  border: none;
-  }
-  /* 添加hover時的樣式 */
-  .box:hover {
-    background-color: #10d917; /* 綠色 */
-  }
-  @media (max-width: 991px) {
-    .box {
-      white-space: initial;
-      margin: 40px 10px 0 0;
-    }
-  }
 </style>

@@ -4,11 +4,11 @@
       <div class="col-auto mt-3">
         <div class="col-auto mt-3">
           <h1>
-            displayer即時版本查詢
+            Bonding Realtime錯誤查詢
           </h1>
         </div>
         <div class="col-auto mt-3">
-            <button type="button" class="btn btn-secondary" @click="sendSQLQuery('immediate_version')">產生表格</button>
+            <button type="button" class="btn btn-secondary" @click="sendSQLQuery('wrong_Bonding')">產生表格</button>
         </div>
         <div class="col-auto mt-3">
             <button type="button" class="btn btn-secondary" @click="downloadData">下載CSV檔</button>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-    import {ref} from 'vue'
+    import {onMounted, ref} from 'vue'
     import axios from 'axios'
     import API from '../api.js'
     import { useCounterStore } from "@/stores/counter.js";
@@ -77,10 +77,6 @@
       }
 
     }
-
+    
 
 </script>
-
-<style>
-
-</style>

@@ -19,3 +19,13 @@ class MySQLConnection():
             print(MySQLDatabaseProc.POOLS)
             conn = MySQLDatabaseProc.getConnection(section)
         return conn
+    
+
+    def db_connection_client():
+        section = 'mysql_client'
+        filename='config.ini'
+        config = read_db_config(filename, section)
+        if MySQLDatabaseProc.startCnxPool(config, section, 3):
+            print(MySQLDatabaseProc.POOLS)
+            conn = MySQLDatabaseProc.getConnection(section)
+        return conn

@@ -1,39 +1,6 @@
 <template>
-  <div>
-    <div class="row mt-2">
-        <div class="col-md-auto">
-          <RouterLink to="/sql_typing"><button class="box">SQL查詢</button></RouterLink>
-        </div>
-        <div class="col-md-auto">
-          <RouterLink to="/about"><button class="box">Notification查詢</button></RouterLink>
-        </div>
-        <div class="col-md-auto">
-          <RouterLink to="/displayer_srch"><button class="box">displayer查詢</button></RouterLink>
-        </div>        
-             
-    </div>
-    <div>
-      <button class="box offset-11" @click="sendSQLQuery">function1</button>
-    </div>
-    <div class="offset-11">
-      <button class="box" @click="increment">{{ count }}</button>
-      <button class="box" @click="getRandomFromBackend">{{ randomNumber }}</button>
-    </div>
-  </div>
-  <div class="table-container">
-    <table v-if="jsonArray.length > 0" class="styled-table ">
-      <thead>
-        <tr>
-          <th v-for="(value, key) in jsonArray[0]" :key="key">{{ key }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in jsonArray" :key="index">
-          <td v-for="(value, key) in item" :key="key">{{ value }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+
+  
 </template>
 
 <script setup>

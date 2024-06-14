@@ -11,6 +11,7 @@
                     <button @click="sendSQLQuery_client">use_client</button>
                 </div>
             </div>
+          <div class="col-auto">
             <div class="table-container">
             <table v-if="jsonArray.length > 0" class="styled-table ">
             <thead>
@@ -25,7 +26,7 @@
             </tbody>
             </table>
             </div>
-        
+          </div>
         </div>
 </template>
 

@@ -1,0 +1,10 @@
+.dropdown-menu.flex-row {
+  flex-direction: row !important;
+  width: auto !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+}
+
+.dropdown-menu.flex-row .dropdown-item {
+  width: auto !important;
+}

@@ -4,6 +4,12 @@ import AboutView from '../views/AboutView.vue'
 import Displayer_srch from '@/views/Displayer_srch.vue'
 import SQL_typing from '@/views/SQL_typing.vue'
 import NotFound from '@/views/NotFound.vue'
+import sqlWrongRealtime_srch from '@/views/sqlWrongrealtime_srch.vue'
+import sqlMainDisplayer from '@/views/sqlMaindisplayer.vue'
+import sqlDisplayerRun from '@/views/sqlDisplayerRun.vue'
+import sqlDisplayerRealtime from '@/views/sqldisplayerRealtime.vue'
+import sqlModelDifferent from '@/views/sqlModelDifferent.vue'
+import sqlNewDisplayTable from '@/views/sqlNewDisplayTable.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +31,36 @@ const router = createRouter({
       path:'/displayer_srch',
       name:'displayer_srch',
       component: Displayer_srch
+    },
+    {
+      path:'/sqlwrongrealtime_srch',
+      name:'sqlwrongrealtime_srch',
+      component: sqlWrongRealtime_srch
+    },
+    {
+      path:'/sqlMaindisplayer',
+      name:'sqlMaindisplayer',
+      component: sqlMainDisplayer
+    },
+    {
+      path:'/sqlDisplayerRun',
+      name:'sqlDisplayerRun',
+      component: sqlDisplayerRun
+    },
+    {
+      path:'/sqlDisplayerRealtime',
+      name:'sqlDisplayerRealtime',
+      component: sqlDisplayerRealtime
+    },
+    {
+      path:'/sqlModelDifferent',
+      name:'sqlModelDifferent',
+      component: sqlModelDifferent
+    },
+    {
+      path:'/sqlNewDisplayTable',
+      name:'sqlNewDisplayTable',
+      component: sqlNewDisplayTable
     },
     {
       path:'/sql_typing',

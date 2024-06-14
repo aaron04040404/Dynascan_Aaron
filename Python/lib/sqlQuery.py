@@ -106,3 +106,99 @@ class sqlQuery():
                 INNER JOIN displayer_realtime AS b ON b.id = a.id
                 WHERE a.status != 'D' AND b.mount = 1"""
     
+
+    def sqldisplayerRun():
+        return """SELECT * 
+                    FROM dynascan365_main.displayer AS a
+                    INNER JOIN displayer_realtime AS b ON b.id = a.id
+                    WHERE a.belong_to = 3 and b.update_on >= '2023-07-11 07:00:00'"""
+    
+    
+    def sqldisplayerRealtime():
+        return """select a.id, a.sn,
+                    a.`condition_flg`   , b.`condition_flg`, 
+                    a.`a_pw_supply`     , b.`a_pw_supply`, 
+                    a.`a_lcm_pw`        , b.`a_lcm_pw`, 
+                    a.`a_lan_switch_pw` , b.`a_lan_switch_pw`, 
+                    a.`a_player_pw`     , b.`a_player_pw`, 
+                    a.`a_thermal`       , b.`a_thermal`, 
+                    a.`a_failover`      , b.`a_failover`, 
+                    a.`a_flood`         , b.`a_flood`, 
+                    a.`a_overheat`      , b.`a_overheat`, 
+                    a.`a_bright_h`      , b.`a_bright_h`, 
+                    a.`a_lcm_stick`     , b.`a_lcm_stick`, 
+                    a.`a_nosignal`      , b.`a_nosignal`, 
+                    a.`a_powerstate`    , b.`a_powerstate`, 
+                    a.`a_fan`           , b.`a_fan`, 
+                    a.`a_lcm_mount`     , b.`a_lcm_mount`, 
+                    a.`a_kiosk_mcb`     , b.`a_kiosk_mcb`, 
+                    a.`s_door`          , b.`s_door`, 
+                    a.`s_lightbox`      , b.`s_lightbox`, 
+                    a.`s_reboot`        , b.`s_reboot`, 
+                    a.`s_osdlock`       , b.`s_osdlock`, 
+                    a.`s_amb_bright`    , b.`s_amb_bright`, 
+                    a.`s_amb_temp`      , b.`s_amb_temp`, 
+                    a.`s_cab_temp`      , b.`s_cab_temp`
+                from
+                    dynascan365_main.displayer_realtime as a,
+                    dynascan365_client.displayer_realtime_sync as b
+                where a.id = b.id and 
+                (
+                    a.`condition_flg`   != b.`condition_flg` or 
+                    a.`a_pw_supply`     != b.`a_pw_supply` or 
+                    a.`a_lcm_pw`        != b.`a_lcm_pw` or 
+                    a.`a_lan_switch_pw` != b.`a_lan_switch_pw` or 
+                    a.`a_player_pw`     != b.`a_player_pw` or 
+                    a.`a_thermal`       != b.`a_thermal` or 
+                    a.`a_failover`      != b.`a_failover` or 
+                    a.`a_flood`         != b.`a_flood` or 
+                    a.`a_overheat`      != b.`a_overheat` or 
+                    a.`a_bright_h`      != b.`a_bright_h` or 
+                    a.`a_lcm_stick`     != b.`a_lcm_stick` or 
+                    a.`a_nosignal`      != b.`a_nosignal` or 
+                    a.`a_powerstate`    != b.`a_powerstate` or 
+                    a.`a_fan`           != b.`a_fan` or 
+                    a.`a_lcm_mount`     != b.`a_lcm_mount` or 
+                    a.`a_kiosk_mcb`     != b.`a_kiosk_mcb` or 
+                    a.`s_door`          != b.`s_door` or 
+                    a.`s_lightbox`      != b.`s_lightbox` or 
+                    a.`s_reboot`        != b.`s_reboot` or 
+                    a.`s_osdlock`       != b.`s_osdlock`
+                );"""
+    
+
+    def sqlmodelDifferent():
+        return """SELECT a.id, a.sn AS signup_sn, a.model AS signup_model, c.name, b.sn, b.model, b.bonding, b.update_on
+                    FROM displayer AS a
+                    INNER JOIN displayer_realtime_sync AS b ON b.id = a.id
+                    LEFT JOIN company AS c ON c.id = a.belong_to
+                    WHERE b.model != a.model AND a.id != 1"""
+
+    def sqlNewdisplayTable():
+        return"""SELECT t1.*, a2.belong_to_name, a2.descp
+                    FROM
+                    (
+                        SELECT IF( b.bonding = '', a.sn, b.bonding ) AS sn,
+                                ( CASE
+                                    WHEN (
+                                        MAX( DISTINCT( CASE
+                                            WHEN JSON_UNQUOTE( JSON_EXTRACT( b.status_tags, '$.lcm_id' ) ) = 1 THEN a.id
+                                            ELSE 0
+                                        END ) ) = 0
+                                    ) THEN MAX( a.id )
+                                    ELSE (
+                                        MAX( DISTINCT( CASE
+                                            WHEN JSON_UNQUOTE( JSON_EXTRACT( b.status_tags, '$.lcm_id' ) ) = 1 THEN a.id
+                                            ELSE 0
+                                        END ) )
+                                    )
+                                END ) AS main_id,
+                                GROUP_CONCAT( DISTINCT( a.id ) ) AS bonding
+                        FROM displayer AS a
+                        INNER JOIN displayer_realtime AS b ON b.id = a.id
+                        WHERE a.status != 'D'
+                        GROUP BY sn
+                    ) t1
+                    INNER JOIN displayer          AS a2 ON a2.id = t1.main_id
+                    INNER JOIN displayer_realtime AS b2 ON b2.id = t1.main_id
+                    WHERE a2.status != 'D' """

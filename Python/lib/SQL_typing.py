@@ -8,7 +8,7 @@ def use_data():
     if database == 'dynascan365_main':
         conn = MySQLConnection.db_connection()
     elif database == 'dynascan365_client':
-        conn = MySQLConnection.db_connection()
+        conn = MySQLConnection.db_connection_client()
     #print(database)
     try:
         #conn = mysql.connector.connect(**db_settings)

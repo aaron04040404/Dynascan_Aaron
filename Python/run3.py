@@ -1,7 +1,8 @@
 import os
 from lib.imports import *
 from lib.config.python_mysql_dbconfig import read_db_config
-from lib.d365_Search import d365_Search #沒有變數的已知查詢
+from lib.sqld365_Search import d365_Search #沒有變數的已知查詢(包含所有)
+from lib.sqld365_Notification_Search import d365_Notification_Search #跟Notification相關的查詢
 from lib.SQL_typing import use_data
 from lib.DownloadData import DownloadData
 from lib.db_connection import MySQLConnection
@@ -60,40 +61,47 @@ def run_sql_typing():
     
     return use_data()   
 
-@app.route('/api/random')
-def random_number():
-    num = randint(1,100)
-    response = {
-        'randomNumber': num
-    }
-    print(num)
-    return jsonify(response)
-
 
 @app.route('/maindisplayer', methods = ['GET', 'POST'])  
 def run_MainDisplayer():
     
     return d365_Search.MainDisplayer()
     
-@app.route('/sql_searching2', methods = ['GET', 'POST'])  
-def run_sql_searching2():
+@app.route('/Notification_between_date', methods = ['GET', 'POST'])  
+def run_Notification_between_date():
     
-    return d365_Search.sql_searching2()
+    return d365_Notification_Search.Notification_between_date()
 
-@app.route('/test', methods = ['GET', 'POST'])
-def run_db_connect_test():
-
-    return d365_Search.wrong_Bonding()
 
 @app.route('/wrong_Bonding', methods = ['GET', 'POST'])
 def run_wrong_bonding():
     
     return d365_Search.wrong_Bonding()
 
-@app.route('/version', methods = ['GET', 'POST'])
+@app.route('/immediate_version', methods = ['GET', 'POST'])
 def run_displayer_version(): 
 
     return d365_Search.displayer_version()
+
+@app.route('/displayer_run', methods = ['GET', 'POST'])
+def run_displayer_run(): 
+
+    return d365_Search.displayer_run()
+
+@app.route('/displayer_realtime', methods = ['GET', 'POST'])
+def run_displayer_realtime(): 
+
+    return d365_Search.displayer_realtime()
+
+@app.route('/model_different', methods = ['GET', 'POST'])
+def run_model_different(): 
+
+    return d365_Search.model_different()
+
+@app.route('/new_display_tab', methods = ['GET', 'POST'])
+def run_new_display_tab(): 
+
+    return d365_Search.new_display_tab()
 
 @app.route('/download', methods = ['GET', 'POST'])
 def run_download():
