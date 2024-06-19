@@ -46,7 +46,7 @@ body {
     flex-direction: column;
 }
 
-#sidebar.expand{
+#sidebar.expand {
     width: 260px;
     min-width: 260px;
 }

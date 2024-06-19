@@ -20,25 +20,11 @@
         <div class="ms-3 mt-3">
           結束日期: {{ endDate }}
         </div>
-        <div class="ms-3 mt-3">
-          <button @click="sendSQLQuery">查詢</button>
+        <div class="ms-3 mt-3" style="display: flex; justify-content: space-between; width: 200px;">
+          <button type="button" class="btn btn-secondary" @click="sendSQLQuery">查詢</button>
+          <button type="button" class="btn btn-secondary" @click="downloadData">下載csv檔</button>
         </div>
-        <div class="col-auto">
-          <div class="table-container">
-            <table v-if="jsonArray.length > 0" class="styled-table">
-              <thead>
-                <tr>
-                  <th v-for="(value, key) in jsonArray[0]" :key="key">{{ key }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(item, index) in jsonArray" :key="index">
-                  <td v-for="(value, key) in item" :key="key">{{ value }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <sqlTable/>
       </div>
 
         
@@ -46,11 +32,13 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import axios from 'axios'
 import API from '../api.js'
 import { format } from 'date-fns';
 import NotificationNav from './NotificationNav.vue'
+import sqlTable from '@/views/sqlTable.vue'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const mcb_id = ref("");
 const startdate = ref(null);
@@ -82,6 +70,26 @@ const sendSQLQuery = async() =>{
     console.log(error)
   }
 }
+
+const downloadData = async() =>{
+        const path = 'http://localhost:5000/download'
+        try{
+            const response = await axios.post(path, {
+              data: jsonArray.value,
+              fileType: 'csv'
+            })
+            const csv = response.data;
+            const link =document.createElement("a");
+            link.target = "_blank";
+            link.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+            link.download = "data.csv";
+            link.click();
+            console.log(response)
+        }catch(error){
+        console.log(error)
+      }
+
+    }
 
 
 </script>

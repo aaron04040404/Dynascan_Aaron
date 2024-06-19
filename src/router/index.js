@@ -7,9 +7,10 @@ import NotFound from '@/views/NotFound.vue'
 import sqlWrongRealtime_srch from '@/views/sqlWrongrealtime_srch.vue'
 import sqlMainDisplayer from '@/views/sqlMaindisplayer.vue'
 import sqlDisplayerRun from '@/views/sqlDisplayerRun.vue'
-import sqlDisplayerRealtime from '@/views/sqldisplayerRealtime.vue'
+import sqlDisplayer_inconsistent from '@/views/sqlDisplayer_inconsistent.vue'
 import sqlModelDifferent from '@/views/sqlModelDifferent.vue'
 import sqlNewDisplayTable from '@/views/sqlNewDisplayTable.vue'
+import DisplayerNav from '@/views/DisplayerNav.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,11 @@ const router = createRouter({
       path:'/',
       name:'home',
       component: HomeView
+    },
+    {
+      path:'/DisplayerNav',
+      name:'DisplayerNav',
+      component: DisplayerNav
     },
     {
       path:'/about',
@@ -48,9 +54,9 @@ const router = createRouter({
       component: sqlDisplayerRun
     },
     {
-      path:'/sqlDisplayerRealtime',
-      name:'sqlDisplayerRealtime',
-      component: sqlDisplayerRealtime
+      path:'/sqlDisplayer_inconsistent',
+      name:'sqlDisplayer_inconsistent',
+      component: sqlDisplayer_inconsistent
     },
     {
       path:'/sqlModelDifferent',

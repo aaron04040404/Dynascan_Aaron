@@ -6,67 +6,117 @@
                 <textarea v-model="sql" placeholder="" style="width: 100%; height: 200px;"></textarea>
             </div>
             <div class="mt-3">
-                <div style="display: flex; justify-content: space-between; width: 200px;">
-                    <button @click="sendSQLQuery_main">use_main</button>
-                    <button @click="sendSQLQuery_client">use_client</button>
+                <div style="display: flex; justify-content: space-between; width: 350px;">
+                    <button type="button" class="btn btn-secondary" @click="sendSQLQuery_main">use_main</button>
+                    <button type="button" class="btn btn-secondary" @click="sendSQLQuery_client">use_client</button>
+                    <button type="button" class="btn btn-secondary" @click="downloadData">下載csv檔</button>
                 </div>
             </div>
           <div class="col-auto">
             <div class="table-container">
-            <table v-if="jsonArray.length > 0" class="styled-table ">
+            <table v-if="store.jsonArray.length > 0" class="styled-table ">
             <thead>
                 <tr>
-                    <th v-for="(value, key) in jsonArray[0]" :key="key">{{ key }}</th>
+                    <th v-for="(value, key) in store.jsonArray[0]" :key="key">{{ key }}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in jsonArray" :key="index">
+                <tr v-for="(item, index) in store.jsonArray" :key="index">
                     <td v-for="(value, key) in item" :key="key" style="white-space: nowrap;">{{ value }}</td>
                 </tr>
             </tbody>
             </table>
             </div>
+            <p v-if="store.jsonArray.length > 0">共有 {{ store.jsonArray.length }} 筆資料</p>
+            <p> {{ store.err_message }}</p>
           </div>
         </div>
 </template>
 
 
 <script setup>
-import { ref, computed } from 'vue';
-import API from '../api.js';
+  import { ref, computed } from 'vue';
+  import axios from 'axios'
+  import API from '../api.js';
+  import { useStore } from "@/stores/counter.js";
 
+  const store = useStore();
+  const sql = ref("");
+  const err_message = ref("");
 
-const sql = ref("");
-const jsonArray = ref([])
-const sendSQLQuery_main = async() =>{
-    const path = 'http://localhost:5000/sql_typing'
+  const sendSQLQuery_main = async() =>{
+      const path = 'http://localhost:5000/sql_typing'
 
-    try{
-        const response = await API.post(path,{
-            sql: sql.value,
-            database: 'dynascan365_main'
-        })
-        jsonArray.value = response.data.data
+      try{
+          const response = await API.post(path,{
+              sql: sql.value,
+              database: 'dynascan365_main'
+          })
+          if(response.data && response.data.data){
+            store.jsonArray = response.data.data;
+              if(response.data.data = []){
+                store.err_message = "沒有查詢到任何東西!!!"
+                
+              }
+              else{
+                store.err_message = "";
+              }
+          }
+          else{
+            store.jsonArray = [];
+            store.err_message = response.data.message;
+          }
         console.log(response)
-    }catch(error){
-    console.log(error)
+        //console.log(store.jsonArray)
+        console.log(store.err_message)
+      }catch(error){
+      console.log(error)
+        store.jsonArray = [];
+    }
   }
-}
 
-const sendSQLQuery_client = async() =>{
-    const path = 'http://localhost:5000/sql_typing'
+  const sendSQLQuery_client = async() =>{
+      const path = 'http://localhost:5000/sql_typing'
 
-    try{
-        const response = await API.post(path,{
-            sql: sql.value,
-            database: 'dynascan365_client'
-        })
-        jsonArray.value = response.data.data
+      try{
+          const response = await API.post(path,{
+              sql: sql.value,
+              database: 'dynascan365_client'
+          })
+          if(response.data && response.data.data){
+              store.jsonArray = response.data.data;
+              err_message.value = "";
+          }
+          else{
+            store.jsonArray = [];
+            err_message.value = response.data.message;
+          }
         console.log(response)
-    }catch(error){
-    console.log(error)
+      }catch(error){
+      console.log(error)
+        store.jsonArray = [];
+    }
   }
-}
+
+  const downloadData = async() =>{
+          const path = 'http://localhost:5000/download'
+          try{
+              const response = await axios.post(path, {
+                data: jsonArray.value,
+                fileType: 'csv'
+              })
+              const csv = response.data;
+              const link =document.createElement("a");
+              link.target = "_blank";
+              link.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+              link.download = "data.csv";
+              link.click();
+              console.log(response)
+          }catch(error){
+          console.log(error)
+        }
+
+      }
 
 </script>
 

@@ -17,9 +17,37 @@ class SyntaxKiosK:
 
 
     #SELECT 出 sqlBondingMainId2() 的值以 main_id的欄位輸出
-    def sqlBondingMainId(mcb_main_tab='' , mcb_realtime_tab='',use_to_select = 'sqlBondingMainId2()' , output_alias = "main_id" ):
+    def sqlBondingMainId(mcb_main_tab='a' , mcb_realtime_tab='b', output_alias = "main_id" ):
         
-        return f""" {use_to_select} AS {output_alias}"""
+        return f"""CONVERT( CASE
+                    WHEN (
+                        MAX( CASE
+                            WHEN {mcb_realtime_tab}.lcm_id = 1 AND {mcb_realtime_tab}.condition_flg < 3 AND {mcb_realtime_tab}.condition_flg > 0 THEN {mcb_main_tab}.id
+                            ELSE 0
+                         END ) = 0
+                    ) THEN (
+                        CASE
+                            WHEN (
+                                 MAX( CASE
+                                    WHEN {mcb_realtime_tab}.condition_flg < 3 AND {mcb_realtime_tab}.condition_flg > 0 THEN {mcb_main_tab}.id
+                                    ELSE ( CASE WHEN {mcb_realtime_tab}.lcm_id = 1 THEN {mcb_main_tab}.id ELSE 0 END )
+                                 END ) = 0
+                            ) THEN (
+                                MAX( {mcb_main_tab}.id )
+                            ) ELSE (
+                                 MAX( CASE
+                                    WHEN {mcb_realtime_tab}.condition_flg < 3 AND {mcb_realtime_tab}.condition_flg > 0 THEN {mcb_main_tab}.id
+                                    ELSE ( CASE WHEN {mcb_realtime_tab}.lcm_id = 1 THEN {mcb_main_tab}.id ELSE 0 END )
+                                 END )
+                            )
+                        END
+                    ) ELSE (
+                        MAX( CASE
+                            WHEN {mcb_realtime_tab}.lcm_id = 1 AND {mcb_realtime_tab}.condition_flg < 3 AND {mcb_realtime_tab}.condition_flg > 0 THEN {mcb_main_tab}.id
+                            ELSE 0
+                        END )
+                    )
+                END, UNSIGNED INTEGER ) AS {output_alias}"""
 
 
     def sqlisDual(mcb_model_tab = 'dm', output_alias = 'is_dual'):

@@ -1,9 +1,8 @@
 <template>
-    
     <div class="wrapper">
         <aside id="sidebar">
             <div class="d-flex">
-                <button id="toggle-btn" type="button">
+                <button id="toggle-btn" >
                     <i class="bi bi-grid-1x2-fill"></i>
                 </button>
                 <div class="sidebar-logo">
@@ -41,7 +40,7 @@
                             <a href="/sqlDisplayerRun" class="sidebar-link">有多少機台在運作</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="/sqlDisplayerRealtime" class="sidebar-link">正式機Realtime不一致<i class="bi bi-bug-fill"></i></a>
+                            <a href="/sqlDisplayer_inconsistent" class="sidebar-link">正式機Realtime不一致<i class="bi bi-bug-fill"></i></a>
                         </li>
                         <li class="sidebar-item">
                             <a href="/sqlNewDisplayTable" class="sidebar-link">New Display表格查詢</a>
@@ -104,6 +103,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { ref,onMounted } from 'vue';
+import '@vuepic/vue-datepicker/dist/main.css'
 
     
     const toggleSidebar = () => {

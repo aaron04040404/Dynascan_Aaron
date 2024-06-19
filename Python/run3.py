@@ -6,37 +6,17 @@ from lib.sqld365_Notification_Search import d365_Notification_Search #跟Notific
 from lib.SQL_typing import use_data
 from lib.DownloadData import DownloadData
 from lib.db_connection import MySQLConnection
-
+from lib.sqld365_Displayer import d365_Displayer
 
 app = Flask(__name__,
             static_folder = "../dist/assets",
             template_folder = "../dist")
 
+#JSON不用字母排列
 app.config['JSON_SORT_KEYS'] = False
             
 cors = CORS(app, resources = {r"/*":{"origins":"*"}})
 
-#bytearray 轉換
-def convert_dict(data):
-    if isinstance(data,str):
-        return data
-    elif isinstance(data,bytes):
-        return data.decode()
-    elif isinstance(data,dict):
-        for key,val in data.items():
-            if isinstance(key,bytes):
-                data[key.decode()] = convert_dict(data[key])
-            else:
-                data[key] = convert_dict(data[key])
-        return data
-    elif isinstance(data,list):
-        temp_list = []
-        for dt in data:
-            temp_list.append(convert_dict(dt))
-        return temp_list
-    else:
-        return data
-    
 
 
 @app.route('/', defaults={'path': ''})
@@ -88,10 +68,10 @@ def run_displayer_run():
 
     return d365_Search.displayer_run()
 
-@app.route('/displayer_realtime', methods = ['GET', 'POST'])
-def run_displayer_realtime(): 
+@app.route('/displayer_inconsistent', methods = ['GET', 'POST'])
+def run_displayer_inconsistent(): 
 
-    return d365_Search.displayer_realtime()
+    return d365_Search.displayer_inconsistent()
 
 @app.route('/model_different', methods = ['GET', 'POST'])
 def run_model_different(): 
@@ -102,6 +82,11 @@ def run_model_different():
 def run_new_display_tab(): 
 
     return d365_Search.new_display_tab()
+
+@app.route('/displayer_realtime', methods = ['GET', 'POST'])
+def run_displayer_realtime():
+    
+    return d365_Displayer.Displayer_realtime()
 
 @app.route('/download', methods = ['GET', 'POST'])
 def run_download():

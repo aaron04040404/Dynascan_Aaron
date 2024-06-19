@@ -1,52 +1,37 @@
 <template>
   <DisplayerNav />
-    <div class="row mt-2">
+    <div class="row">
       <div class="col-auto mt-3">
-        <div class="col-auto mt-3">
+        <div class="mt-3">
           <h1>
             displayer即時版本查詢
           </h1>
         </div>
-        <div class="col-auto mt-3">
+        <div class="mt-3">
             <button type="button" class="btn btn-secondary" @click="sendSQLQuery('immediate_version')">產生表格</button>
         </div>
-        <div class="col-auto mt-3">
+        <div class="mt-3">
             <button type="button" class="btn btn-secondary" @click="downloadData">下載CSV檔</button>
         </div>
       </div>
-      <div class="col-auto">
-        <div class="table-container">
-          <table v-if="jsonArray.length > 0" class="styled-table">
-            <thead>
-              <tr>
-                <th v-for="(value, key) in jsonArray[0]" :key="key">{{ key }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in jsonArray" :key="index">
-                <td v-for="(value, key) in item" :key="key">{{ value }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
-
-
+      <sqlTable />
     
 </template>
 
 <script setup>
-    import {ref} from 'vue'
+    import {ref, computed} from 'vue'
     import axios from 'axios'
     import API from '../api.js'
-    import { useCounterStore } from "@/stores/counter.js";
     import DisplayerNav from '@/views/DisplayerNav.vue'
-    const counterStore = useCounterStore();
-    const jsonArray = ref([])
+    import sqlTable from '@/views/sqlTable.vue'
 
+    import { useStore } from "@/stores/counter.js";
+    const store = useStore();
+    const jsonArray = computed(()=> store.jsonArray);
+    const sendSQLQuery = store.sendSQLQuery;
 
-    const sendSQLQuery = async(route) =>{
+    /*const sendSQLQuery = async(route) =>{
         const path = `http://localhost:5000/${route}`
         try {
         const response = await API.post(path, { sql: 'YOUR_SQL_QUERY_HERE' })
@@ -56,7 +41,7 @@
         } catch (error) {
             console.log(error)
         }
-    }
+    }*/
     //下載csv檔
     const downloadData = async() =>{
         const path = 'http://localhost:5000/download'
@@ -77,6 +62,7 @@
       }
 
     }
+
 
 
 </script>

@@ -2,6 +2,7 @@ from lib.imports import *
 from lib.config.python_mysql_dbconfig import read_db_config
 from lib.config.db_lib import MySQLDataBase
 from lib.db_connection import MySQLConnection
+from lib.sqlConvertData import ConvertData
 
 def use_data():
     database = request.json.get('database')
@@ -22,21 +23,26 @@ def use_data():
             column_names = [i[0] for i in cursor.description]
             df = pd.DataFrame(data, columns = column_names)
             print(df)
-    
+        json_data = df.to_dict(orient = 'records')
+        json_data_finally =  ConvertData.convert_bytearray_fields(json_data)
+        try:      
+            status = json.dumps(1)
+            json_status = json.loads(status)
+            return jsonify({'status': json_status,'data':json_data_finally})
+            
+        #except json.JSONDecodeError:
+        
+        #When an error message occurs with jsonify, execute the except 
+        except TypeError as e:
+            status = json.dumps(0)
+            json_status = json.loads(status)        
+            return jsonify({'status': json_status, 'message':"An error occurred: " + str(e)})
+    except Exception as e:
+        status = json.dumps(0)
+        json_status = json.loads(status) 
+        return jsonify({'status': json_status, 'message':"無效或錯誤的查詢: " + str(e)})
+
     finally:
         conn.close()
     
-    json_data = df.to_dict(orient = 'records')
     
-    try:      
-        status = json.dumps(1)
-        json_status = json.loads(status)
-        return jsonify({'status': json_status,'data':json_data})
-        
-    #except json.JSONDecodeError:
-    
-    #When an error message occurs with jsonify, execute the except 
-    except TypeError as e:
-        status = json.dumps(0)
-        json_status = json.loads(status)        
-        return jsonify({'status': json_status, 'message':"An error occurred: " + str(e)})

@@ -29,3 +29,17 @@
     margin-top: 20px;
     border: 1px solid #ccc;
   }
+
+  .table-wrapper {
+    display: block;
+}
+
+.table-body-wrapper {
+    display: block;
+    max-height: 400px; /* Adjust as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table-body-wrapper .styled-table {
+    margin-top: 0; /* Align body table with the header */
+}

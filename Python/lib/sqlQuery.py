@@ -26,26 +26,23 @@ class sqlQuery():
 
 
                     SELECT DISTINCT b.bonding
-                    FROM
-                    (SELECT bonding
-                    FROM
-                    (SELECT bonding_tab2.*, isdual_tab.is_dual
-                    FROM
-                    (SELECT id, mount, condition_flg, bonding, lcm_id, sn, model, main_sn
-                    FROM
-                    (SELECT DISTINCT
-                        IF(b.bonding != '' AND b.bonding IS NOT NULL, b.bonding, a.sn) AS main_sn	
-                    FROM displayer AS a 
-                    INNER JOIN displayer_realtime AS b ON b.id = a.id) AS bonding_tab
-                    INNER JOIN displayer_realtime AS b ON b.bonding = bonding_tab.main_sn AND b.mount > 0) AS bonding_tab2
-                    INNER JOIN 
-                    (SELECT 
-                    model,
+                    FROM displayer_realtime AS b
+                    INNER JOIN (
+                        SELECT DISTINCT
+
+                            IF(bonding != '' AND bonding IS NOT NULL, bonding, a.sn) AS main_sn
+                        FROM displayer AS a
+                        INNER JOIN displayer_realtime AS b ON b.id = a.id
+                        
+                    ) AS bonding_tab ON b.bonding = bonding_tab.main_sn AND b.mount > 0
+                    INNER JOIN (
+                        SELECT 
+                            model,
                     {SyntaxKiosK.sqlisDual()}
-                    FROM displayer_model AS dm) AS isdual_tab ON isdual_tab.model = bonding_tab2.model AND is_dual = 1) AS bonding_isdual_tab
-                    GROUP BY bonding_isdual_tab.bonding
-                    HAVING SUM(bonding_isdual_tab.is_dual) < 2) AS final_isdual
-                    INNER JOIN displayer_realtime AS b ON b.bonding = final_isdual.bonding
+                        FROM displayer_model AS dm
+                    ) AS isdual_tab ON isdual_tab.model = b.model AND is_dual = 1
+                    GROUP BY b.bonding
+                    HAVING SUM(is_dual) < 2
                     UNION DISTINCT
 
 
@@ -114,31 +111,31 @@ class sqlQuery():
                     WHERE a.belong_to = 3 and b.update_on >= '2023-07-11 07:00:00'"""
     
     
-    def sqldisplayerRealtime():
+    def sqldisplayer_inconsistent():
         return """select a.id, a.sn,
-                    a.`condition_flg`   , b.`condition_flg`, 
-                    a.`a_pw_supply`     , b.`a_pw_supply`, 
-                    a.`a_lcm_pw`        , b.`a_lcm_pw`, 
-                    a.`a_lan_switch_pw` , b.`a_lan_switch_pw`, 
-                    a.`a_player_pw`     , b.`a_player_pw`, 
-                    a.`a_thermal`       , b.`a_thermal`, 
-                    a.`a_failover`      , b.`a_failover`, 
-                    a.`a_flood`         , b.`a_flood`, 
-                    a.`a_overheat`      , b.`a_overheat`, 
-                    a.`a_bright_h`      , b.`a_bright_h`, 
-                    a.`a_lcm_stick`     , b.`a_lcm_stick`, 
-                    a.`a_nosignal`      , b.`a_nosignal`, 
-                    a.`a_powerstate`    , b.`a_powerstate`, 
-                    a.`a_fan`           , b.`a_fan`, 
-                    a.`a_lcm_mount`     , b.`a_lcm_mount`, 
-                    a.`a_kiosk_mcb`     , b.`a_kiosk_mcb`, 
-                    a.`s_door`          , b.`s_door`, 
-                    a.`s_lightbox`      , b.`s_lightbox`, 
-                    a.`s_reboot`        , b.`s_reboot`, 
-                    a.`s_osdlock`       , b.`s_osdlock`, 
-                    a.`s_amb_bright`    , b.`s_amb_bright`, 
-                    a.`s_amb_temp`      , b.`s_amb_temp`, 
-                    a.`s_cab_temp`      , b.`s_cab_temp`
+                    a.`condition_flg`   , b.`condition_flg` as b_condition_flg, 
+                    a.`a_pw_supply`     , b.`a_pw_supply` as b_a_pw_supply,
+                    a.`a_lcm_pw`        , b.`a_lcm_pw` as b_a_lcm_pw, 
+                    a.`a_lan_switch_pw` , b.`a_lan_switch_pw` as b_a_lan_switch_pw, 
+                    a.`a_player_pw`     , b.`a_player_pw` as b_a_player_pw, 
+                    a.`a_thermal`       , b.`a_thermal` as b_a_thermal, 
+                    a.`a_failover`      , b.`a_failover` as b_a_failover, 
+                    a.`a_flood`         , b.`a_flood` as b_a_flood, 
+                    a.`a_overheat`      , b.`a_overheat` as b_a_overheat, 
+                    a.`a_bright_h`      , b.`a_bright_h` as b_a_bright_h, 
+                    a.`a_lcm_stick`     , b.`a_lcm_stick` as b_a_lcm_stick, 
+                    a.`a_nosignal`      , b.`a_nosignal` as b_a_nosignal, 
+                    a.`a_powerstate`    , b.`a_powerstate` as b_a_powerstate, 
+                    a.`a_fan`           , b.`a_fan` as b_a_fan, 
+                    a.`a_lcm_mount`     , b.`a_lcm_mount` as b_a_lcm_mount, 
+                    a.`a_kiosk_mcb`     , b.`a_kiosk_mcb` as b_a_kiosk_mcb,  
+                    a.`s_door`          , b.`s_door` as b_s_door, 
+                    a.`s_lightbox`      , b.`s_lightbox` as b_s_lightbox, 
+                    a.`s_reboot`        , b.`s_reboot` as b_s_reboot, 
+                    a.`s_osdlock`       , b.`s_osdlock` as b_s_osdlock, 
+                    a.`s_amb_bright`    , b.`s_amb_bright` as b_s_amb_bright, 
+                    a.`s_amb_temp`      , b.`s_amb_temp` as b_s_amb_temp, 
+                    a.`s_cab_temp`      , b.`s_cab_temp` as b_s_cab_temp
                 from
                     dynascan365_main.displayer_realtime as a,
                     dynascan365_client.displayer_realtime_sync as b
@@ -202,3 +199,9 @@ class sqlQuery():
                     INNER JOIN displayer          AS a2 ON a2.id = t1.main_id
                     INNER JOIN displayer_realtime AS b2 ON b2.id = t1.main_id
                     WHERE a2.status != 'D' """
+    
+    def sqlDisplayer_realtime(bonding):
+        return f"""SELECT * 
+                    FROM displayer_realtime
+                    WHERE MATCH(bonding, sn)
+                    AGAINST('{bonding}' IN NATURAL LANGUAGE MODE);"""

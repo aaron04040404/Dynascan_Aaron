@@ -1,43 +1,83 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Displayer相關</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </a>              
-              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">                
-                <li>
-                  <a class="sidebar-link" href="/displayer_srch">displayer即時版本</a>
-                </li>
-                <li>
-                  <a class="sidebar-link" aria-current="page" href="/sqlwrongrealtime_srch">Realtime錯誤查詢</a>
-                </li>
-                <li>
-                  <a class="sidebar-link" aria-current="page" href="/sqlMaindisplayer">Maindisplayer查詢</a>
-                </li>
-                <li>
-                  <a class="sidebar-link" aria-current="page" href="/sqlDisplayerRun">有多少機台在運作</a>
-                </li>
-                <li>
-                  <a class="sidebar-link" aria-current="page" href="/sqlDisplayerRealtime">正式機Realtime不一致</a>
-                </li>
-                <li>
-                  <a class="sidebar-link" aria-current="page" href="/sqlNewDisplayTable">New Display表格查詢</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">displayer相關</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              dropdown
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
+              <li>
+                <a class="sidebar-link" href="/displayer_srch">displayer即時版本查詢</a>
+              </li>
+              <li>
+                <a class="sidebar-link" aria-current="page" href="/sqlwrongrealtime_srch">Realtime錯誤查詢</a>
+              </li>
+              <li>
+                <a class="sidebar-link" aria-current="page" href="/sqlMaindisplayer">Maindisplayer查詢</a>
+              </li>
+              <li>
+                <a class="sidebar-link" aria-current="page" href="/sqlDisplayerRun">有多少機台在運作</a>
+              </li>
+              <li>
+                <a class="sidebar-link" aria-current="page" href="/sqlDisplayer_inconsistent">正式機Realtime不一致</a>
+              </li>
+              <li>
+                <a class="sidebar-link" aria-current="page" href="/sqlNewDisplayTable">New Display表格查詢</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex" @submit.prevent="sendSQLQuery2('displayer_realtime')">
+          <input v-model="bonding" class="form-control me-2" placeholder="輸入Bonding或sn" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
       </div>
-    </nav>
+    </div>
+  </nav>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from 'vue';
+import API from '../api.js';
+import { useStore } from "@/stores/counter.js";
+
+const store = useStore();
+//const jsonArray = computed(()=> store.jsonArray);
+
+
+const bonding = ref("")
+const sendSQLQuery2 = async (route) => {
+  const path = `http://localhost:5000/${route}`;
+  
+  try {
+    const response = await API.post(path, { 
+      bonding: bonding.value 
+    })
+    if(response.data && response.data.data){
+      store.jsonArray = response.data.data;
+      if(response.data.data = []){//很奇怪這裡不用用 ==
+          store.err_message = "沒有查詢到任何東西!!!"
+      }
+      else{
+          store.err_message = "";
+      }
+  }
+    else{
+      store.jsonArray = [];
+      store.err_message = response.data.message;
+  }
+console.log(response)
+//console.log(store.jsonArray)
+console.log(store.err_message)
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 </script>

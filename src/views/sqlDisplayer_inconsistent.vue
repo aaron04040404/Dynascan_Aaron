@@ -1,38 +1,37 @@
 <template>
+  
     <DisplayerNav />
       <div class="row mt-2">
         <div class="col-auto mt-3">
           <div class="col-auto mt-3">
             <h1>
-                New Display表格查詢
+              正式機Realtime不一致
             </h1>
           </div>
           <div class="col-auto mt-3">
-              <button type="button" class="btn btn-secondary" @click="sendSQLQuery('new_display_tab')">產生表格</button>
+              <button type="button" class="btn btn-secondary" @click="sendSQLQuery('displayer_inconsistent')">產生表格</button>
           </div>
           <div class="col-auto mt-3">
               <button type="button" class="btn btn-secondary" @click="downloadData">下載CSV檔</button>
           </div>
         </div>
-      </div>
-      <sqlTable />
-  
-  
+    </div>
+    <sqlTable />
       
-  </template>
+</template>
   
   <script setup>
-      import {ref, computed} from 'vue'
+      import {ref,computed} from 'vue'
       import axios from 'axios'
       import API from '../api.js'
       import DisplayerNav from '@/views/DisplayerNav.vue'
-      import sqlTable from '@/views/sqlTable.vue'
       import { useStore } from "@/stores/counter.js";
+      import sqlTable from '@/views/sqlTable.vue'
       const store = useStore();
       const jsonArray = computed(()=> store.jsonArray);
       const sendSQLQuery = store.sendSQLQuery;
-
-
+  
+  
       //下載csv檔
       const downloadData = async() =>{
           const path = 'http://localhost:5000/download'

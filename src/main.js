@@ -17,10 +17,16 @@ import './css/table.css'
 import './css/dropdown.css'
 import 'datatables.net'
 import 'datatables.net-dt/css/dataTables.dataTables.min.css'
+import API from './api.js'
+import { useStore } from './stores/counter';
+import sqlTable from '@/views/sqlTable.vue'
+
 
 const app = createApp(App)
 
 app.use(createPinia())
+const store = useStore()
 app.use(router)
 
 app.mount('#app')
+
