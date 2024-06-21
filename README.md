@@ -8,7 +8,7 @@
 後端API:Python Flask  
 前端:Vue.js  
 資料庫:MySQL  
-選擇用mysql-connector而不是用pymysql，能夠更好管理，套件也很多，缺點只有不能直接CALL Procedure
+選擇用mysql-connector而不是用pymysql，能夠更好管理，套件也很多，缺點只有不能直接CALL Procedure  
 其他:Bootstrap5, Pinia
 
 
