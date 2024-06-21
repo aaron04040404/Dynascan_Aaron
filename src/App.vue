@@ -15,7 +15,7 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="/sql_typing" class="sidebar-link">
+                    <a href="/SQL_typing" class="sidebar-link">
                         <i class="bi bi-filetype-sql"></i>
                         <span>SQL查詢</span>
                     </a>

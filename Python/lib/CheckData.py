@@ -38,6 +38,7 @@ class CheckData():
     @staticmethod        
     def CheckWrong_Bonding(df):
         bonding_values = df['bonding'].unique() #classify the bonding
+        has_issues = True
         for bonding_value in bonding_values:
             subset = df[df['bonding'] == bonding_value]
             if CheckData.CheckWrong_lcm_id(subset):
@@ -45,4 +46,5 @@ class CheckData():
                     if CheckData.CheckWrong_condition_flg(subset):
                         if CheckData.CheckWrong_mount(subset):
                             print(f"{bonding_value} is no problem")
-        return ("Check Complete!!")
+                            has_issues = False
+        return has_issues

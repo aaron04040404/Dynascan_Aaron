@@ -7,7 +7,9 @@ class sqlQuery():
         return f"""SELECT id, mount, condition_flg, b.bonding, lcm_id, sn, b.model, b.android_v, b.dsservice_v, b.dsm365_v,
                          dm.face_total_num, dm.face_normal_num, dm.face_touch_num,
                         {SyntaxKiosK.sqlisDual()}
-                    FROM
+                    FROM displayer_realtime AS b
+                    INNER JOIN displayer_model AS dm ON b.model = dm.model
+                    INNER JOIN 
                     (SELECT DISTINCT b.bonding
                     FROM
                     (SELECT bonding
@@ -47,42 +49,28 @@ class sqlQuery():
 
 
                     SELECT DISTINCT b.bonding
-                    FROM
-                    (SELECT bonding, 
-                    {SyntaxKiosK.sqlBondingConditionFlg()}
-                    FROM
-                    (SELECT id, mount, condition_flg, bonding, lcm_id, sn, model, main_sn
-                    FROM
-                    (SELECT DISTINCT
-                        IF(b.bonding != '' AND b.bonding IS NOT NULL, b.bonding, a.sn) AS main_sn	
-                    FROM displayer AS a 
-                    INNER JOIN displayer_realtime AS b ON b.id = a.id) AS bonding_tab
-                    INNER JOIN displayer_realtime AS b ON b.bonding = bonding_tab.main_sn) AS b
-                    INNER JOIN displayer_model AS dm ON dm.model = b.model
-                    GROUP BY b.bonding) AS correct_tab
-                    INNER JOIN displayer_realtime AS b ON b.bonding = correct_tab.bonding
-                    WHERE b.condition_flg != correct_tab.correct_condition_flg
+                    FROM displayer_realtime as b
+                    INNER JOIN
+                    (SELECT 
+                        b.bonding,
+                        {SyntaxKiosK.sqlBondingConditionFlg()} 
+                    FROM displayer_realtime as b 
+                    INNER JOIN displayer_model as dm ON b.model = dm.model
+                    GROUP BY b.bonding) AS correct_tab ON b.bonding = correct_tab.bonding
+                    WHERE b.bonding != '' AND b.condition_flg != correct_tab.correct_condition_flg
                     UNION DISTINCT
 
 
                     SELECT DISTINCT b.bonding
-                    FROM
-                    (SELECT bonding,
+                    FROM displayer_realtime as b
+                    INNER JOIN
+                    (SELECT b.bonding,
                     {SyntaxKiosK.sqlisMountError()}
-                    FROM
-                    (SELECT id, mount, condition_flg, bonding, lcm_id, sn, model, main_sn
-                    FROM
-                    (SELECT DISTINCT
-                        IF(b.bonding != '' AND b.bonding IS NOT NULL, b.bonding, a.sn) AS main_sn	
-                    FROM displayer AS a 
-                    INNER JOIN displayer_realtime AS b ON b.id = a.id) AS bonding_tab
-                    INNER JOIN displayer_realtime AS b ON b.bonding = bonding_tab.main_sn) AS b
-                    INNER JOIN displayer_model AS dm ON dm.model = b.model
-                    GROUP BY b.bonding) AS mount_err_tab
-                    INNER JOIN displayer_realtime AS b ON b.bonding = mount_err_tab.bonding
-                    WHERE mount_err_tab.mount_err != 0) AS all_err_bonding
-                    INNER JOIN displayer_realtime AS b ON b.bonding = all_err_bonding.bonding
-                    INNER JOIN displayer_model AS dm ON b.model = dm.model"""
+                    FROM displayer_realtime as b
+                    INNER JOIN displayer_model as dm ON b.model = dm.model
+                    WHERE b.bonding != ''
+                    group by b.bonding) as mount_err_tab ON b.bonding = mount_err_tab.bonding
+                    WHERE mount_err_tab.mount_err != 0) AS all_err_bonding ON b.bonding = all_err_bonding.bonding"""
     
     def sqlNotification(mcb_id, start_date, end_date):
         return f"""SELECT 
@@ -204,4 +192,4 @@ class sqlQuery():
         return f"""SELECT * 
                     FROM displayer_realtime
                     WHERE MATCH(bonding, sn)
-                    AGAINST('{bonding}' IN NATURAL LANGUAGE MODE);"""
+                    AGAINST('{bonding}*' IN BOOLEAN MODE);"""

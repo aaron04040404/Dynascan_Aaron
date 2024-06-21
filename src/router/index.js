@@ -69,8 +69,8 @@ const router = createRouter({
       component: sqlNewDisplayTable
     },
     {
-      path:'/sql_typing',
-      name:'sql_typing',
+      path:'/SQL_typing',
+      name:'SQL_typing',
       component: SQL_typing
 
     },

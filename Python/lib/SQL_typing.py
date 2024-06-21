@@ -1,8 +1,6 @@
 from lib.imports import *
-from lib.config.python_mysql_dbconfig import read_db_config
-from lib.config.db_lib import MySQLDataBase
 from lib.db_connection import MySQLConnection
-from lib.sqlConvertData import ConvertData
+from lib.DataProcess import DataProc
 
 def use_data():
     database = request.json.get('database')
@@ -24,7 +22,7 @@ def use_data():
             df = pd.DataFrame(data, columns = column_names)
             print(df)
         json_data = df.to_dict(orient = 'records')
-        json_data_finally =  ConvertData.convert_bytearray_fields(json_data)
+        json_data_finally =  DataProc.convert_bytearray_fields(json_data)
         try:      
             status = json.dumps(1)
             json_status = json.loads(status)

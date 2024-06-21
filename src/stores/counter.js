@@ -16,17 +16,32 @@ export const useStore = defineStore('store', () =>{
     })
     
     if(response.data && response.data.data){
-      if(response.data.data == []){//在pinia裡面要用 ==
+      jsonArray.value = response.data.data;
+      
+      //Code Copilot說:要確認組數是否為空，要檢查數組的length而不是用 data == []來檢查
+      if(response.data.data.length == 0){
           err_message.value = "沒有查詢到任何東西!!!"
+          //Code Copilot說:如果直接用alert(err_message)的話會回傳一個包括value的ref對象，而不是value本身
+          Swal.fire({
+            title: 'Warning!',
+            text: err_message.value,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+          })
       }
       else{
-          jsonArray.value = response.data.data;
           err_message.value = "";
       }
   }
     else{
       jsonArray.value = [];
       err_message.value = response.data.message;
+      Swal.fire({
+        title: 'Error!',
+        text: err_message.value,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
   }
 console.log(response)
 //console.log(store.jsonArray)

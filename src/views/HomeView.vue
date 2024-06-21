@@ -4,7 +4,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+/*import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import API from '../api.js'
 import { useRouter } from 'vue-router';
@@ -57,7 +57,7 @@ const sendSQLQuery = async () => {
 
 onMounted(() => {
   getRandom()
-})
+})*/
 
 </script>
 

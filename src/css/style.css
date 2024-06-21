@@ -88,7 +88,7 @@ a.sidebar-link {
     padding: .625rem 1.625rem;
     color: #FFF;
     display: block;
-    font-size: 0.9rem;
+    font-size: .9rem;
     white-space: nowrap;
     border-left: 3px solid transparent;
     text-decoration: none;
@@ -135,7 +135,7 @@ a.sidebar-link:hover {
     border-width: 0 .075rem .075rem 0;
     content: "";
     display: inline-block;
-    padding: 2px;
+    padding: px;
     position: absolute;
     right: 1.5rem;
     top: 1.4rem;

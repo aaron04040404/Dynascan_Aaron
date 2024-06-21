@@ -15,11 +15,13 @@ import 'sidebarjs/lib/sidebarjs.min.css'
 import './css/style.css'
 import './css/table.css'
 import './css/dropdown.css'
+
 import 'datatables.net'
 import 'datatables.net-dt/css/dataTables.dataTables.min.css'
 import API from './api.js'
 import { useStore } from './stores/counter';
 import sqlTable from '@/views/sqlTable.vue'
+import Swal from 'sweetalert2';
 
 
 const app = createApp(App)

@@ -34,12 +34,14 @@
 import { ref, computed } from 'vue';
 import axios from 'axios'
 import API from '../api.js'
+import { useStore } from "@/stores/counter.js";
 import { format } from 'date-fns';
 import NotificationNav from './NotificationNav.vue'
 import sqlTable from '@/views/sqlTable.vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
+const store = useStore();
 const mcb_id = ref("");
 const startdate = ref(null);
 const enddate = ref(null);
@@ -64,11 +66,29 @@ const sendSQLQuery = async() =>{
       endDate: endDate.value
 
     })
-    jsonArray.value = response.data.data
-    console.log(response)
-  }catch(error){
-    console.log(error)
-  }
+
+    if(response.data && response.data.data){
+      store.jsonArray = response.data.data;
+        if(response.data.data.length == 0){
+          store.err_message = "沒有查詢到任何東西!!!"
+          alert(store.err_message)
+        }
+        else{
+          store.err_message = "";
+        }
+    }
+    else{
+      store.jsonArray = [];
+      store.err_message = response.data.message;
+      alert(store.err_message)
+    }
+  console.log(response)
+  //console.log(store.jsonArray)
+  console.log(store.err_message)
+}catch(error){
+console.log(error)
+  store.jsonArray = [];
+}
 }
 
 const downloadData = async() =>{

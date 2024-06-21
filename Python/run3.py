@@ -4,7 +4,7 @@ from lib.config.python_mysql_dbconfig import read_db_config
 from lib.sqld365_Search import d365_Search #沒有變數的已知查詢(包含所有)
 from lib.sqld365_Notification_Search import d365_Notification_Search #跟Notification相關的查詢
 from lib.SQL_typing import use_data
-from lib.DownloadData import DownloadData
+from lib.DataProcess import DataProc
 from lib.db_connection import MySQLConnection
 from lib.sqld365_Displayer import d365_Displayer
 
@@ -36,6 +36,7 @@ def after_request(response):
     return response
     
 
+#這個路由的名字好像會影響到讀取 如果前端的path也設成/sql_typing
 @app.route('/sql_typing', methods = ['GET', 'POST'])    
 def run_sql_typing():
     
@@ -90,7 +91,7 @@ def run_displayer_realtime():
 
 @app.route('/download', methods = ['GET', 'POST'])
 def run_download():
-    return DownloadData.downloadcsv()    
+    return DataProc.downloadcsv()    
         
 if __name__ == '__main__':
     

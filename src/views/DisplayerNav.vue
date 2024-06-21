@@ -13,7 +13,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
               <li>
-                <a class="sidebar-link" href="/displayer_srch">displayer即時版本查詢</a>
+                <a class="sidebar-link " href="/displayer_srch">displayer即時版本查詢</a>
               </li>
               <li>
                 <a class="sidebar-link" aria-current="page" href="/sqlwrongrealtime_srch">Realtime錯誤查詢</a>
@@ -46,11 +46,10 @@
 import { ref, computed } from 'vue';
 import API from '../api.js';
 import { useStore } from "@/stores/counter.js";
+import Swal from 'sweetalert2';
 
 const store = useStore();
 //const jsonArray = computed(()=> store.jsonArray);
-
-
 const bonding = ref("")
 const sendSQLQuery2 = async (route) => {
   const path = `http://localhost:5000/${route}`;
@@ -60,9 +59,17 @@ const sendSQLQuery2 = async (route) => {
       bonding: bonding.value 
     })
     if(response.data && response.data.data){
+      
       store.jsonArray = response.data.data;
-      if(response.data.data = []){//很奇怪這裡不用用 ==
+      
+      if(response.data.data.length == 0){
           store.err_message = "沒有查詢到任何東西!!!"
+          Swal.fire({
+            title: 'Warning!',
+            text: store.err_message,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+          })
       }
       else{
           store.err_message = "";
@@ -71,9 +78,15 @@ const sendSQLQuery2 = async (route) => {
     else{
       store.jsonArray = [];
       store.err_message = response.data.message;
+      Swal.fire({
+            title: 'Error!',
+            text: store.err_message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          })
   }
 console.log(response)
-//console.log(store.jsonArray)
+console.log(response.data.data)
 console.log(store.err_message)
   } catch (error) {
     console.log(error);
