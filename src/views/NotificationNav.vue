@@ -46,6 +46,7 @@
 import { ref, computed } from 'vue';
 import API from '../api.js';
 import { useStore } from "@/stores/counter.js";
+import Swal from 'sweetalert2';
 
 const store = useStore();
 //const jsonArray = computed(()=> store.jsonArray);
@@ -63,7 +64,12 @@ const sendSQLQuery2 = async (route) => {
       store.jsonArray = response.data.data;
       if(response.data.data.length == 0){
           store.err_message = "沒有查詢到任何東西!!!"
-          alert(store.err_message)
+          Swal.fire({
+            title: 'Warning!',
+            text: store.err_message,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+          })
       }
       else{
           store.err_message = "";
@@ -72,7 +78,12 @@ const sendSQLQuery2 = async (route) => {
     else{
       store.jsonArray = [];
       store.err_message = response.data.message;
-      alert(store.err_message)
+      Swal.fire({
+            title: 'Error!',
+            text: store.err_message,
+            icon: 'Error',
+            confirmButtonText: 'OK'
+          })
   }
 console.log(response)
 //console.log(store.jsonArray)

@@ -14,7 +14,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'sidebarjs/lib/sidebarjs.min.css'
 import './css/style.css'
 import './css/table.css'
-import './css/dropdown.css'
 
 import 'datatables.net'
 import 'datatables.net-dt/css/dataTables.dataTables.min.css'

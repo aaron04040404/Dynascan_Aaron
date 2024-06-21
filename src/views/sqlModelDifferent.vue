@@ -11,7 +11,7 @@
               <button type="button" class="btn btn-secondary" @click="sendSQLQuery('model_different')">產生表格</button>
           </div>
           <div class="col-auto mt-3">
-              <button type="button" class="btn btn-secondary" @click="downloadData">下載CSV檔</button>
+              <button type="button" class="btn btn-secondary" @click="downloadData">Download CSV  <i class="bi bi-download"></i></button>
           </div>
         </div>
       </div>

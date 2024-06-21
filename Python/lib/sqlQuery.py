@@ -11,19 +11,14 @@ class sqlQuery():
                     INNER JOIN displayer_model AS dm ON b.model = dm.model
                     INNER JOIN 
                     (SELECT DISTINCT b.bonding
-                    FROM
-                    (SELECT bonding
-                    FROM
-                    (SELECT id, mount, condition_flg, bonding, lcm_id, sn, model, main_sn
-                    FROM
-                    (SELECT DISTINCT
-                        IF(b.bonding != '' AND b.bonding IS NOT NULL, b.bonding, a.sn) AS main_sn	
-                    FROM displayer AS a 
-                    INNER JOIN displayer_realtime AS b ON b.id = a.id) AS bonding_tab
-                    INNER JOIN displayer_realtime AS b ON b.bonding = bonding_tab.main_sn AND b.mount > 0) AS bonding_tab2
-                    GROUP BY bonding_tab2.bonding
-                    HAVING SUM(bonding_tab2.lcm_id) = 2 OR SUM(bonding_tab2.lcm_id) > 3) AS bonding_tab3
-                    INNER JOIN displayer_realtime AS b ON b.bonding = bonding_tab3.bonding
+                    FROM displayer_realtime AS b
+                    INNER JOIN
+                    (SELECT
+                        DISTINCT bonding,
+                        IF(SUM(lcm_id) = 2 OR SUM(lcm_id) > 3, 1, 0) AS err_lcm_id
+                    FROM displayer_realtime AS b
+                    WHERE mount > 0 AND bonding != ''
+                    GROUP BY bonding) AS err_lcm_id_tab ON b.bonding = err_lcm_id_tab.bonding AND err_lcm_id_tab.err_lcm_id = 1
                     UNION DISTINCT
 
 

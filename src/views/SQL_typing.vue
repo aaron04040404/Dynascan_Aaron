@@ -1,15 +1,15 @@
 <template>
   <div class="container">
       <div>
-          <span>輸入SQL語法:</span>
+          <h1>輸入SQL語法:</h1>
           <p style="white-space: pre-line;"></p>
           <textarea v-model="sql" placeholder="" style="width: 100%; height: 200px;"></textarea>
       </div>
       <div class="mt-3">
-          <div style="display: flex; justify-content: space-between; width: 350px;">
+          <div style="display: flex; justify-content: space-between; width: 400px;">
               <button type="button" class="btn btn-secondary" @click="sendSQLQuery_main">use_main</button>
               <button type="button" class="btn btn-secondary" @click="sendSQLQuery_client">use_client</button>
-              <button type="button" class="btn btn-secondary" @click="downloadData">下載csv檔</button>
+              <button type="button" class="btn btn-secondary" @click="downloadData">Download CSV  <i class="bi bi-download"></i></button>
           </div>
       </div>
     <div class="col-auto">
