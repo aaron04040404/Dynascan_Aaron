@@ -1,4 +1,4 @@
-# vue-project
+# Dynascan資料庫報表輸出
 
 This template should help get you started developing with Vue 3 in Vite.
 
