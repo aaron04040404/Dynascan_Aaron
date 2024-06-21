@@ -5,11 +5,11 @@
 
 ## 環境
 
-後端API:Python Flask  
-前端:Vue.js  
+後端API:Python [Flask](https://flask.palletsprojects.com/en/3.0.x/)  
+前端:[Vue.js](https://vuejs.org/guide/quick-start.html)  
 資料庫:MySQL  
 選擇用mysql-connector而不是用pymysql，能夠更好管理，套件也很多，缺點只有不能直接CALL Procedure  
-其他:Bootstrap5, Pinia
+其他:Bootstrap5, [Pinia](https://pinia.vuejs.org/core-concepts/)
 
 
 ## 2024-05-12
@@ -23,7 +23,7 @@
 
 ## 2024-05-14
 
-把原本傳統的html轉換成Vue，並將flask跟Vue搭建起來傳輸要的response
+把原本傳統的html轉換成Vue，並將[flask+Vue](https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/)搭建起來傳輸要的response
 
 ## 2024-05-15
 
