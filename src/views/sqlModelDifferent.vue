@@ -25,7 +25,7 @@
       import {ref, computed} from 'vue'
       import axios from 'axios'
       import API from '../api.js'
-      import ModelNav from '@/views/ModelNav.vue'
+      import ModelNav from '@/views/Nav_Model.vue'
       import sqlTable from '@/views/sqlTable.vue'
       import { useStore } from "@/stores/counter.js";
       const store = useStore();

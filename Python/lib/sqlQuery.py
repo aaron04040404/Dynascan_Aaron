@@ -188,3 +188,18 @@ class sqlQuery():
                     FROM displayer_realtime
                     WHERE MATCH(bonding, sn)
                     AGAINST('{bonding}*' IN BOOLEAN MODE);"""
+    
+
+    def sqlduplicate_alarm_event(date):
+        return f"""WITH batch AS (
+                    SELECT *
+                    FROM mcb_alarm_events
+                    WHERE end_on = '{date}'
+                    ORDER BY mcb_id
+                    LIMIT 3000000
+                )
+                SELECT mcb_id, alarm_type, COUNT(*) AS num
+                FROM batch
+                GROUP BY mcb_id, alarm_type
+                HAVING COUNT(*) > 1
+                ORDER BY num, mcb_id;"""

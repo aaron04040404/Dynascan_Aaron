@@ -3,10 +3,12 @@ from lib.imports import *
 from lib.config.python_mysql_dbconfig import read_db_config
 from lib.sqld365_Search import d365_Search #沒有變數的已知查詢(包含所有)
 from lib.sqld365_Notification_Search import d365_Notification_Search #跟Notification相關的查詢
+from lib.sqld365_Alarm import d365Alarm
+from lib.sqld365_Displayer import d365_Displayer
 from lib.SQL_typing import use_data
 from lib.DataProcess import DataProc
 from lib.db_connection import MySQLConnection
-from lib.sqld365_Displayer import d365_Displayer
+
 
 app = Flask(__name__,
             static_folder = "../dist/assets",
@@ -47,6 +49,11 @@ def run_sql_typing():
 def run_MainDisplayer():
     
     return d365_Search.MainDisplayer()
+
+@app.route('/duplicate_alarm_event', methods = ['GET', 'POST'])  
+def run_duplicate_alarm_event():
+    
+    return d365Alarm.duplicate_alarm_event()
     
 @app.route('/Notification_between_date', methods = ['GET', 'POST'])  
 def run_Notification_between_date():

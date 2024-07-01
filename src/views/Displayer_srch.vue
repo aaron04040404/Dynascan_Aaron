@@ -23,13 +23,14 @@
     import {ref, computed} from 'vue'
     import axios from 'axios'
     import API from '../api.js'
-    import DisplayerNav from '@/views/DisplayerNav.vue'
+    import DisplayerNav from '@/views/Nav_Displayer.vue'
     import sqlTable from '@/views/sqlTable.vue'
 
     import { useStore } from "@/stores/counter.js";
     const store = useStore();
     const jsonArray = computed(()=> store.jsonArray);
     const sendSQLQuery = store.sendSQLQuery;
+    const downloadData = store.downloadData;
 
     /*const sendSQLQuery = async(route) =>{
         const path = `http://localhost:5000/${route}`
@@ -43,7 +44,7 @@
         }
     }*/
     //下載csv檔
-    const downloadData = async() =>{
+    /*const downloadData = async() =>{
         const path = 'http://localhost:5000/download'
         try{
             const response = await axios.post(path, {
@@ -61,7 +62,7 @@
         console.log(error)
       }
 
-    }
+    }*/
 
 
 

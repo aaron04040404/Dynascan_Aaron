@@ -10,7 +10,8 @@ import sqlDisplayerRun from '@/views/sqlDisplayerRun.vue'
 import sqlDisplayer_inconsistent from '@/views/sqlDisplayer_inconsistent.vue'
 import sqlModelDifferent from '@/views/sqlModelDifferent.vue'
 import sqlNewDisplayTable from '@/views/sqlNewDisplayTable.vue'
-import DisplayerNav from '@/views/DisplayerNav.vue'
+import sqlDuplicate_alarm_event from '@/views/sqlDuplicate_alarm_event.vue'
+import DisplayerNav from '@/views/Nav_Displayer.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: AboutView
+    },
+    {
+      path:'/sqlDuplicate_alarm_event',
+      name:'sqlDuplicate_alarm_event',
+      component: sqlDuplicate_alarm_event
     },
     {
       path:'/displayer_srch',

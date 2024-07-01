@@ -67,7 +67,7 @@
                     </a>
                     <ul id="mcb_alarm" class="sidebar-dropdown list-unstyle collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">mcb_alarm</a>
+                            <a href="/sqlDuplicate_alarm_event" class="sidebar-link">mcb_alarm</a>
                         </li>
                     </ul>
                 </li>

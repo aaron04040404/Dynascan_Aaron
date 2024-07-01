@@ -1,5 +1,8 @@
 <template>
   <NotificationNav />
+  <div class="mt-3">
+    <h1>mcb某時間內通知</h1>
+  </div>
       <!-- 左側 -->
       <div>
         <div class="ms-3 mt-3">
@@ -20,9 +23,11 @@
         <div class="ms-3 mt-3">
           結束日期: {{ endDate }}
         </div>
-        <div class="ms-3 mt-3" style="display: flex; justify-content: space-between; width: 200px;">
-          <button type="button" class="btn btn-secondary" @click="sendSQLQuery">查詢</button>
-          <button type="button" class="btn btn-secondary" @click="downloadData">下載csv檔</button>
+        <div class="mt-3">
+            <button type="button" class="btn btn-secondary" @click="sendSQLQuery">查詢</button>
+        </div>
+        <div class="mt-3">
+            <button type="button" class="btn btn-secondary" @click="downloadData">Download CSV  <i class="bi bi-download"></i></button>
         </div>
         <sqlTable/>
       </div>
@@ -36,16 +41,19 @@ import axios from 'axios'
 import API from '../api.js'
 import { useStore } from "@/stores/counter.js";
 import { format } from 'date-fns';
-import NotificationNav from './NotificationNav.vue'
+import NotificationNav from './Nav_Notification.vue'
 import sqlTable from '@/views/sqlTable.vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import Swal from 'sweetalert2';
 
 const store = useStore();
 const mcb_id = ref("");
 const startdate = ref(null);
 const enddate = ref(null);
 const jsonArray = ref([])
+
+
 
 const startDate = computed(() => {
   if (!startdate.value) return '';
@@ -71,7 +79,12 @@ const sendSQLQuery = async() =>{
       store.jsonArray = response.data.data;
         if(response.data.data.length == 0){
           store.err_message = "沒有查詢到任何東西!!!"
-          alert(store.err_message)
+          Swal.fire({
+            title: 'Warning!',
+            text: store.err_message,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+          })
         }
         else{
           store.err_message = "";
@@ -80,7 +93,12 @@ const sendSQLQuery = async() =>{
     else{
       store.jsonArray = [];
       store.err_message = response.data.message;
-      alert(store.err_message)
+      Swal.fire({
+            title: 'Error!',
+            text: store.err_message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          })
     }
   console.log(response)
   //console.log(store.jsonArray)

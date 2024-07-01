@@ -7,7 +7,8 @@ from lib.CheckData import CheckData
 from lib.sqlQuery import sqlQuery
 from lib.DataProcess import DataProc
 
-class d365_Search:
+
+class d365_Search():
     def MainDisplayer():
         try:
             #在config裡面做連接function
@@ -54,7 +55,6 @@ class d365_Search:
                 return DataProc.jsonify_return(result)
         else:
             return result
-
 
     def displayer_version():
         result = DataProc.sqlsearchMethod_main(sqlQuery.sqldisplayerVersion())
