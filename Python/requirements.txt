@@ -22,7 +22,6 @@ lxml==5.2.2
 MarkupSafe==2.1.5
 multitasking==0.0.11
 mysql-connector-python==8.0.33
-numpy==1.21.6
 pandas==1.1.5
 pandasql==0.7.3
 platformdirs==4.0.0
